@@ -22,14 +22,17 @@ const BlueprintCanvas = () => {
             if (fill == 0) {
                 ctx.fillStyle = 'white';
             } else {
-                ctx.fillStyle = 'black';
+                ctx.fillStyle = `rgb(${glyph.data[index+0]}, ${glyph.data[index+1]}, ${glyph.data[index+2]})`;
             }
             ctx.fillRect(
               (x - glyph.width/2)*ratio + ctx.canvas.width/2, 
               (y - glyph.height/2)*ratio + ctx.canvas.height/2, 
-              ratio, ratio);
+              ratio, 
+              ratio
+            );
           }
         }
+        //ctx.putImageData(glyph, 0, 0);
       }
     }
   }, [glyph])

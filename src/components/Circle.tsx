@@ -1,5 +1,5 @@
 import { Slider } from '@mantine/core';
-import { createContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useGlyph } from '~GlyphProvider';
 import { drawCanvas } from '~utils';
 
@@ -22,11 +22,11 @@ const Circle = () => {
 
   useEffect(() => {
     const imageData = drawCanvas((ctx) => {
-      ctx.beginPath();
-      ctx.arc(ctx.canvas.width / 2, ctx.canvas.height / 2, settings.radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'black';
+      ctx.strokeStyle = 'black';
+      ctx.arc(0, 0, settings.radius, 0, Math.PI * 2);
+      ctx.stroke();
       ctx.fill();
-    });
+    }, 2*settings.radius, 2*settings.radius);
     imageData && setGlyph(imageData);
   }, [settings]);
 

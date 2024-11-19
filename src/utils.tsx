@@ -1,11 +1,14 @@
 import { deflate, inflate } from 'pako';
 
-const drawCanvas = (callback: (ctx: OffscreenCanvasRenderingContext2D) => void) => {
-    const canvas = new OffscreenCanvas(201, 201);
+const drawCanvas = (callback: (ctx: OffscreenCanvasRenderingContext2D) => void, width?: number, height?: number) => {
+    const canvas = new OffscreenCanvas(width ?? 201, height ?? 201);
     const ctx = canvas.getContext('2d');
     if (ctx != null) {
       ctx.imageSmoothingEnabled = false;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.translate(canvas.width/2, canvas.height/2);
+      ctx.fillStyle = 'red';
+      ctx.strokeStyle = 'red';
       callback(ctx);
       return ctx.getImageData(0, 0, canvas.width, canvas.height);
     }
@@ -25,4 +28,35 @@ const importBlueprint = (blueprintString: string): object => {
   return JSON.parse(out);
 }
 
-export { drawCanvas }
+const emptyBlueprint = {
+  "blueprint": {
+    "icons": [],
+    "entities": [],
+    "tiles": [],
+    "item": "blueprint",
+    "version": 562949954404356
+  }
+}
+
+interface AnyMap {
+  [key: string]: any;
+}
+
+const generateBlueprintObject = (glyph: ImageData, currentBlueprint?: AnyMap): AnyMap => {
+  let blueprintObject = currentBlueprint ? { ... currentBlueprint } : { ...emptyBlueprint };
+
+  const halfWidth = glyph.width / 2;
+  const halfHeight = glyph.height / 2;
+
+  for(let x=0; x<glyph.width; x++) {
+    for(let y=0; y<glyph.height; y++) {
+      let index = (x + y * glyph.width) * 4;
+      if (glyph.data[index+3] > 0) {
+        blueprintObject['blueprint']['tiles'].push({position: {x: x-halfWidth, y: y-halfHeight}, name: 'space-platform-foundation'});
+      }
+    }
+  }
+  return blueprintObject;
+}
+
+export { drawCanvas, importBlueprint, exportBlueprint, generateBlueprintObject }
