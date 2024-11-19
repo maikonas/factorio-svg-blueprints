@@ -1,2 +1,5 @@
 # factorio-svg-blueprints
-Generate Factorio blueprints from SVG shapes
+
+Generate Factorio blueprints using SVG shapes
+
+
