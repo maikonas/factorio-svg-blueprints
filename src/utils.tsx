@@ -7,43 +7,44 @@ const drawCanvas = (callback: (ctx: OffscreenCanvasRenderingContext2D) => void, 
       ctx.imageSmoothingEnabled = false;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.translate(canvas.width/2, canvas.height/2);
-      ctx.fillStyle = 'red';
-      ctx.strokeStyle = 'red';
       callback(ctx);
       return ctx.getImageData(0, 0, canvas.width, canvas.height);
     }
 }
 
-const exportBlueprint = (blueprintObject: object): string => {
+const exportBlueprint = (blueprintObject: Blueprint): string => {
   const json = JSON.stringify(blueprintObject);
   const bytes = deflate(json, {level: 9});
   const output = btoa(String.fromCharCode.apply(null, Array.from(bytes)));
   return '0'+output;
 }
 
-const importBlueprint = (blueprintString: string): object => {
+const importBlueprint = (blueprintString: string): Blueprint => {
   const data = blueprintString.substring(1);
   const decodedArray = Uint8Array.from(atob(data), char => char.charCodeAt(0)); ;
   let out = inflate(decodedArray, { to: 'string' });
   return JSON.parse(out);
 }
 
-const emptyBlueprint = {
+interface Blueprint {
+  [key: string]: any;
+}
+interface KeyValue {
+  [key: string]: any;
+}
+
+const emptyBlueprint: Blueprint = {
   "blueprint": {
     "icons": [],
     "entities": [],
     "tiles": [],
     "item": "blueprint",
-    "version": 562949954404356
+    "version": 0
   }
 }
 
-interface AnyMap {
-  [key: string]: any;
-}
-
-const generateBlueprintObject = (glyph: ImageData, currentBlueprint?: AnyMap): AnyMap => {
-  let blueprintObject = currentBlueprint ? { ... currentBlueprint } : { ...emptyBlueprint };
+const generateBlueprintObject = (glyph: ImageData, currentBlueprint?: Blueprint): Blueprint => {
+  let blueprintObject = currentBlueprint ? { ...currentBlueprint } : { ...emptyBlueprint };
 
   const halfWidth = glyph.width / 2;
   const halfHeight = glyph.height / 2;
@@ -51,7 +52,7 @@ const generateBlueprintObject = (glyph: ImageData, currentBlueprint?: AnyMap): A
   for(let x=0; x<glyph.width; x++) {
     for(let y=0; y<glyph.height; y++) {
       let index = (x + y * glyph.width) * 4;
-      if (glyph.data[index+3] > 0) {
+      if (glyph.data[index+3] >= 64) {
         blueprintObject['blueprint']['tiles'].push({position: {x: x-halfWidth, y: y-halfHeight}, name: 'space-platform-foundation'});
       }
     }
@@ -59,4 +60,4 @@ const generateBlueprintObject = (glyph: ImageData, currentBlueprint?: AnyMap): A
   return blueprintObject;
 }
 
-export { drawCanvas, importBlueprint, exportBlueprint, generateBlueprintObject }
+export { drawCanvas, importBlueprint, exportBlueprint, generateBlueprintObject, Blueprint, KeyValue }

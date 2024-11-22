@@ -44,7 +44,6 @@ const Triangle = () => {
       ctx.fillStyle = 'black';
       ctx.fill();
     }, 2*settings.radius, 2*settings.radius);
-
     imageData && setGlyph(imageData);
   }, [settings]);
 

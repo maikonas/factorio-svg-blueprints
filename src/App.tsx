@@ -1,70 +1,43 @@
 import '@mantine/core/styles.css';
-import { AppShell, MantineProvider, Combobox, Input, InputBase, Button } from '@mantine/core';
-import { GlyphProvider, useGlyph } from '~GlyphProvider';
+import { AppShell, MantineProvider, Stack, Text } from '@mantine/core';
+import { GlyphProvider } from '~GlyphProvider';
 import { BlueprintCanvas } from '~BlueprintCanvas';
-import { Circle } from '~components/Circle';
-import { Triangle } from '~components/Triangle';
-import { Ellipse } from '~components/Ellipse';
 import { ExportBlueprint } from '~ExportBlueprint';
+import { GeneralSettings } from '~GeneralSettings';
+import { ImportedBlueprintProvider } from '~ImportedBlueprintProvider';
+import { ImportBlueprint } from '~ImportBlueprint';
+import { ShapeDropdown } from '~ShapeDropdown';
+import { GeneralSettingsProvider } from '~GeneralSettingsProvider';
 
 const App = () => {
-  const {glyph, setGlyph} = useGlyph();
-
-  const options = ['circle', 'triangle'].map((item) => (
-    <Combobox.Option value={item} key={item}>
-      {item}
-    </Combobox.Option>
-  ));
-
-  const importData = () => {
-  }
-
   return (
     <MantineProvider>
       <GlyphProvider>
+        <ImportedBlueprintProvider><GeneralSettingsProvider>
         <AppShell
           header={{ height: 60 }}
           navbar={{ width: 300, breakpoint: 'sm' }}
-          aside={{ width: 300, breakpoint: 'sm' }}
+          aside={{ width: 400, breakpoint: 'sm' }}
           padding="md"
         >
           <AppShell.Header>
-            
+            <Text size='xl' p='md'>Bluepring generator</Text>
           </AppShell.Header>
-          <AppShell.Navbar p="md">
-            <Combobox
-              withinPortal={false}
-              onOptionSubmit={(val) => {
-            }}
-            >
-              <Combobox.Target>
-                <InputBase
-                  component="button"
-                  type="button"
-                  pointer
-                  rightSection={<Combobox.Chevron />}
-                  rightSectionPointerEvents="none"
-                >
-                  {<Input.Placeholder>Pick value</Input.Placeholder>}
-                </InputBase>
-              </Combobox.Target>
-              <Combobox.Dropdown>
-                <Combobox.Options>{options}</Combobox.Options>  
-              </Combobox.Dropdown>
-            </Combobox>
-            <Circle/>
-            <Triangle/>
-            <Ellipse/>
+          <AppShell.Navbar p='md'>
+          <Stack gap='md'>
+            <GeneralSettings/>
+            <ShapeDropdown/>
+          </Stack>
           </AppShell.Navbar>
           <AppShell.Main>
             <BlueprintCanvas/>
           </AppShell.Main>
           <AppShell.Aside p="md">
-            <textarea rows={10}></textarea>
-            <Button onClick={importData} >Import</Button>
+            <ImportBlueprint/>
             <ExportBlueprint/>
           </AppShell.Aside>
         </AppShell>
+        </GeneralSettingsProvider></ImportedBlueprintProvider>
       </GlyphProvider>
     </MantineProvider>
   );

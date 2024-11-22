@@ -35,8 +35,6 @@ const Ellipse = () => {
 
     const imageData = drawCanvas((ctx) => {
       ctx.ellipse(0, 0, settings.radiusA, settings.radiusB, 0, 0, Math.PI * 2);
-      ctx.strokeStyle = 'gray';
-      ctx.stroke
       ctx.fill();
     }, 2*width, 2*width);
     imageData && setGlyph(imageData);
