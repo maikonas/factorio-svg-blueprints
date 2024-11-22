@@ -1,4 +1,5 @@
 import { deflate, inflate } from 'pako';
+import { GeneralSettingsType } from '~GeneralSettings';
 
 const drawCanvas = (callback: (ctx: OffscreenCanvasRenderingContext2D) => void, width?: number, height?: number) => {
     const canvas = new OffscreenCanvas(width ?? 201, height ?? 201);
@@ -43,17 +44,52 @@ const emptyBlueprint: Blueprint = {
   }
 }
 
-const generateBlueprintObject = (glyph: ImageData, currentBlueprint?: Blueprint): Blueprint => {
-  let blueprintObject = currentBlueprint ? { ...currentBlueprint } : { ...emptyBlueprint };
+const emptyBlueprintWithHub: Blueprint = {
+  "blueprint": {
+    "icons": [],
+    "entities": [
+      {
+        "entity_number": 1,
+        "name": "space-platform-hub",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "request_filters": {
+          "sections": [
+            {
+              "index": 1
+            },
+            {
+              "index": 2,
+              "active": false
+            }
+          ],
+          "request_from_buffers": true
+        },
+        "request_missing_construction_materials": true
+      }      
+    ],
+    "tiles": [],
+    "item": "blueprint",
+    "version": 0
+  }
+}
+
+const generateBlueprintObject = (glyph: ImageData, settings: GeneralSettingsType): Blueprint => {
+  let blueprintObject = settings.addSpacePlatformHub ? structuredClone(emptyBlueprintWithHub) : structuredClone(emptyBlueprint);
 
   const halfWidth = glyph.width / 2;
   const halfHeight = glyph.height / 2;
+
+  const dx = settings.addSpacePlatformHub ? settings.platformHubX || 0 : 0
+  const dy = settings.addSpacePlatformHub ? settings.platformHubY || 0 : 0
 
   for(let x=0; x<glyph.width; x++) {
     for(let y=0; y<glyph.height; y++) {
       let index = (x + y * glyph.width) * 4;
       if (glyph.data[index+3] >= 64) {
-        blueprintObject['blueprint']['tiles'].push({position: {x: x-halfWidth, y: y-halfHeight}, name: 'space-platform-foundation'});
+        blueprintObject['blueprint']['tiles'].push({position: {x: x-halfWidth-dx, y: y-halfHeight-dy}, name: settings.tile});
       }
     }
   }
