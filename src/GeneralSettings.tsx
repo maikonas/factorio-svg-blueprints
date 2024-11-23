@@ -5,13 +5,13 @@ import { useGeneralSettings } from '~GeneralSettingsProvider';
 type GeneralSettingsType = {
   tile: string,
   addSpacePlatformHub: boolean,
-  platformHubX?: number,
-  platformHubY?: number,
+  platformHubX: number,
+  platformHubY: number,
 }
 
 const selectionList: {[key: string]: string[]} = {
   'Space Age': ['space-platform-foundation', 'foundation', 'ice-platform'],
-  'Vanilla': ['landfill', 'stone-brick', 'concrete', 'hazard-concrete', 'refined-concrete', 'refined-hazard-concrete'],
+  'Vanilla':   ['landfill', 'stone-path', 'concrete', 'hazard-concrete-left', 'refined-concrete', 'refined-hazard-concrete-left', ],
 }
 
 const options = Object.entries(selectionList).map(([key, value]) => {
@@ -33,20 +33,28 @@ const GeneralSettings = () => {
   });
   const {settings, setSettings} = useGeneralSettings()
 
-  const [selection, setSelection] = useState<string>(selectionList['Space Age'][0]);
-  const [hubX, setHubX] = useState<number>(0);
-  const [hubY, setHubY] = useState<number>(0);
+  const [hubX, setHubX] = useState<number>(settings.platformHubX);
+  const [hubY, setHubY] = useState<number>(settings.platformHubY);
 
   const commitHubX = (value: number) => {
-    setSettings({...settings, platformHubX: value})
+    setSettings((prevSettings) => ({...prevSettings, platformHubX: value}));
   }
 
   const commitHubY = (value: number) => {
-    setSettings({...settings, platformHubY: value})
+    setSettings((prevSettings) => ({...prevSettings, platformHubY: value}));
+  }
+
+  const commitTile = (value: string) => {
+    setSettings((prevSettings) => ({...prevSettings, tile: value, addSpacePlatformHub: value === 'space-platform-foundation'}));
+  }
+
+  const spaceTile = (): boolean => {
+    return settings.tile === 'space-platform-foundation'
   }
 
   const commitHubPresence = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSettings({...settings, addSpacePlatformHub: event.currentTarget.checked})
+    const val = event.currentTarget.checked
+    setSettings((prevSettings) => ({...prevSettings, addSpacePlatformHub: val}));
   }
 
   return (
@@ -55,8 +63,7 @@ const GeneralSettings = () => {
         store={combobox}
         withinPortal={false}
         onOptionSubmit={(val) => {
-          setSelection(val);
-          setSettings({...settings, tile: val})
+          commitTile(val);
           combobox.closeDropdown();
       }}>
         <Combobox.Target>
@@ -67,20 +74,19 @@ const GeneralSettings = () => {
             rightSection={<Combobox.Chevron />}
             onClick={() => combobox.toggleDropdown()}
             rightSectionPointerEvents="none">
-            {selection && <Group wrap='nowrap'><Image src={`/icons/${selection}.png`} fit='contain' h='1rem'/>{selection}</Group>}
-            {!selection && <Input.Placeholder>Pick value</Input.Placeholder>}
+
+            <Group wrap='nowrap'><Image src={`/icons/${settings.tile}.png`} fit='contain' h='1rem'/>{settings.tile}</Group>
           </InputBase>
         </Combobox.Target>
         <Combobox.Dropdown>
           <Combobox.Options>{options}</Combobox.Options>  
         </Combobox.Dropdown>
       </Combobox>    
-      <Checkbox checked={settings.addSpacePlatformHub} label="Add Space Platform Hub" onChange={commitHubPresence}/>
+      <Checkbox disabled={!spaceTile()}  checked={settings.addSpacePlatformHub} label="Add Space Platform Hub" onChange={commitHubPresence}/>
       <Slider min={-100} max={100} step={1} onChange={setHubX} value={hubX} onChangeEnd={commitHubX} disabled={!settings.addSpacePlatformHub}/>
       <Slider min={-100} max={100} step={1} onChange={setHubY} value={hubY} onChangeEnd={commitHubY} disabled={!settings.addSpacePlatformHub}/>
     </Stack>
   )
-
 }
 
 export { GeneralSettings, GeneralSettingsType }

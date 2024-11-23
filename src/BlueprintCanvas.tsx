@@ -35,8 +35,6 @@ const BlueprintCanvas = () => {
           }
         }
 
-        console.log(settings);
-
         if (settings.addSpacePlatformHub) {
           const dx = settings.platformHubX || 0;
           const dy = settings.platformHubY || 0;
