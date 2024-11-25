@@ -1,4 +1,4 @@
-import { Button, Textarea } from "@mantine/core";
+import { Button, Stack, Textarea } from "@mantine/core";
 import { useRef } from "react";
 import { useGeneralSettings } from "~GeneralSettingsProvider";
 import { useGlyph } from "~GlyphProvider";
@@ -12,7 +12,6 @@ const ExportBlueprint = () => {
   const exportData = () => {
     if (glyph) {
       const obj = generateBlueprintObject(glyph, settings);
-
       console.log(obj);
 
       exportArea.current!.value = exportBlueprint(obj)
@@ -20,10 +19,10 @@ const ExportBlueprint = () => {
   }
   
   return (
-    <>
+    <Stack>
       <Textarea ref={exportArea} rows={10}/>
-      <Button onClick={exportData}>Export</Button>
-    </>
+      <Button onClick={exportData}>Generate Blueprint</Button>
+    </Stack>
   );
 }
 

@@ -1,16 +1,53 @@
 import { deflate, inflate } from 'pako';
 import { GeneralSettingsType } from '~GeneralSettings';
 
-const drawCanvas = (callback: (ctx: OffscreenCanvasRenderingContext2D) => void, width?: number, height?: number) => {
-    const canvas = new OffscreenCanvas(width ?? 201, height ?? 201);
-    const ctx = canvas.getContext('2d');
-    if (ctx != null) {
-      ctx.imageSmoothingEnabled = false;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.translate(canvas.width/2, canvas.height/2);
-      callback(ctx);
-      return ctx.getImageData(0, 0, canvas.width, canvas.height);
+const drawCanvas = (radius: number, callback: (ctx: OffscreenCanvasRenderingContext2D) => void) => {
+  const canvas = new OffscreenCanvas(201, 201);
+  const ctx = canvas.getContext('2d')!;
+  ctx.imageSmoothingEnabled = false;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.translate(100, 100);
+  callback(ctx);
+  return ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
+
+type CustomShapeSettings = {
+  path: string;
+  scale: number;
+  horizontalMirror?: boolean;
+  verticalMirror?: boolean;
+  rotations?: number;
+}
+
+type DrawCallback = (path: Path2D) => void;
+
+const drawShape = (ctx: OffscreenCanvasRenderingContext2D, settings: CustomShapeSettings, drawCallback: DrawCallback) => {
+  const path = new Path2D(settings.path);
+
+  ctx.scale(100*settings.scale, 100*settings.scale);
+
+  drawCallback(path);
+  if (settings.horizontalMirror) {
+    ctx.scale(-1, 1);
+    drawCallback(path);
+  }
+
+  if (settings.verticalMirror) {
+    ctx.scale(1, -1);
+    drawCallback(path);
+    if (settings.horizontalMirror) {
+      ctx.scale(-1, 1);
+      drawCallback(path);
     }
+  }
+
+  if (settings.rotations) {
+    const angle = 2 / settings.rotations * Math.PI;
+    for(let i=1; i<settings.rotations; i++) {
+      ctx.rotate(angle);
+      drawCallback(path);
+    } 
+  }
 }
 
 const exportBlueprint = (blueprintObject: Blueprint): string => {
@@ -96,4 +133,4 @@ const generateBlueprintObject = (glyph: ImageData, settings: GeneralSettingsType
   return blueprintObject;
 }
 
-export { drawCanvas, importBlueprint, exportBlueprint, generateBlueprintObject, Blueprint, KeyValue }
+export { drawCanvas, importBlueprint, exportBlueprint, generateBlueprintObject, Blueprint, KeyValue, CustomShapeSettings, drawShape }

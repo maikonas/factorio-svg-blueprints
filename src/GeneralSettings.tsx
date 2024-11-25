@@ -71,6 +71,7 @@ const GeneralSettings = () => {
             component='button'
             type='button'
             pointer
+            description='Select tile'
             rightSection={<Combobox.Chevron />}
             onClick={() => combobox.toggleDropdown()}
             rightSectionPointerEvents="none">
@@ -82,7 +83,7 @@ const GeneralSettings = () => {
           <Combobox.Options>{options}</Combobox.Options>  
         </Combobox.Dropdown>
       </Combobox>    
-      <Checkbox disabled={!spaceTile()}  checked={settings.addSpacePlatformHub} label="Add Space Platform Hub" onChange={commitHubPresence}/>
+      <Checkbox disabled={!spaceTile()} checked={settings.addSpacePlatformHub} label="Add Space Platform Hub" onChange={commitHubPresence}/>
       <Slider min={-100} max={100} step={1} onChange={setHubX} value={hubX} onChangeEnd={commitHubX} disabled={!settings.addSpacePlatformHub}/>
       <Slider min={-100} max={100} step={1} onChange={setHubY} value={hubY} onChangeEnd={commitHubY} disabled={!settings.addSpacePlatformHub}/>
     </Stack>

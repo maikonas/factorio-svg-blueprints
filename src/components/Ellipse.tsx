@@ -3,49 +3,30 @@ import { useState, useEffect } from 'react';
 import { useGlyph } from '~GlyphProvider';
 import { drawCanvas } from '~utils';
 
-type EllipseSettings = {
-  radiusA: number;
-  radiusB: number;
-}
-
 const Ellipse = () => {
-  const [settings, setSettings] = useState<EllipseSettings>({ radiusA: 40, radiusB: 20 });
   const { glyph, setGlyph } = useGlyph();
-  const [radiusValueA, setRadiusAValue] = useState<number>(settings.radiusA);
-  const [radiusValueB, setRadiusBValue] = useState<number>(settings.radiusB);
+  const [radiusA, setRadiusA] = useState<number>(20);
+  const [radiusB, setRadiusB] = useState<number>(40);
 
-  const commitRadiusA = (radiusA: number) => {
-    setSettings((prev) => ({ ...prev, radiusA }));
-  }
-
-  const commitRadiusB = (radiusB: number) => {
-    setSettings((prev) => ({ ...prev, radiusB }));
-  }
-
-  const radiusAChange = (radius: number) => {
-    setRadiusAValue(radius);
-  }
-
-  const radiusBChange = (radius: number) => {
-    setRadiusBValue(radius);
-  }
+  const [sliderA, setSliderA] = useState<number>(radiusA);
+  const [sliderB, setSliderB] = useState<number>(radiusB);
 
   useEffect(() => {
-    let width = settings.radiusA > settings.radiusB ? settings.radiusA : settings.radiusB;
+    let width = radiusA > radiusB ? radiusA : radiusB;
 
-    const imageData = drawCanvas((ctx) => {
-      ctx.ellipse(0, 0, settings.radiusA, settings.radiusB, 0, 0, Math.PI * 2);
+    const imageData = drawCanvas(width, (ctx) => {
+      ctx.ellipse(0, 0, radiusA, radiusB, 0, 0, Math.PI * 2);
       ctx.fill();
-    }, 2*width, 2*width);
-    imageData && setGlyph(imageData);
-  }, [settings]);
+    });
+    setGlyph(imageData);
+  }, [radiusA, radiusB]);
 
   return (
     <div>
       Radius A
-      <Slider min={1} max={200} value={radiusValueA} onChangeEnd={commitRadiusA} onChange={radiusAChange}/>
+      <Slider min={1} max={200} value={sliderA} onChangeEnd={setRadiusA} onChange={setSliderA}/>
       Radius B
-      <Slider min={1} max={200} value={radiusValueB} onChangeEnd={commitRadiusB} onChange={radiusBChange}/>
+      <Slider min={1} max={200} value={sliderB} onChangeEnd={setRadiusB} onChange={setSliderB}/>
     </div>
   );
 }

@@ -1,20 +1,22 @@
 import { Slider } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { useGlyph } from '~GlyphProvider';
-import { drawCanvas } from '~utils';
+import { CustomShapeSettings, drawCanvas, drawShape } from '~utils';
 
-const Circle = () => {
+const CustomShape = (settings: CustomShapeSettings) => {
   const { glyph, setGlyph } = useGlyph();
-  const [radius, setRadiusValue] = useState<number>(20);
+  const [radius, setRadiusValue] = useState<number>(100);
   const [slider, setSlider] = useState<number>(radius);
   
   useEffect(() => {
     const imageData = drawCanvas(radius, (ctx) => {
-      ctx.arc(0, 0, radius, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.scale(radius/100, radius/100);
+      drawShape(ctx, settings, (path) => {
+        ctx.fill(path);
+      });
     });
     setGlyph(imageData);
-  }, [radius]);
+  }, [radius, settings]);
 
   return (
     <div>
@@ -23,5 +25,5 @@ const Circle = () => {
     </div>
   );
 }
-export { Circle }
+export { CustomShape }
 

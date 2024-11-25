@@ -1,10 +1,9 @@
 import '@mantine/core/styles.css';
-import { AppShell, MantineProvider, Stack, Text } from '@mantine/core';
+import { AppShell, Button, MantineProvider, Modal, Stack, Text } from '@mantine/core';
 import { GlyphProvider } from '~GlyphProvider';
 import { BlueprintCanvas } from '~BlueprintCanvas';
 import { ExportBlueprint } from '~ExportBlueprint';
 import { GeneralSettings } from '~GeneralSettings';
-import { ImportBlueprint } from '~ImportBlueprint';
 import { ShapeDropdown } from '~ShapeDropdown';
 import { GeneralSettingsProvider } from '~GeneralSettingsProvider';
 
@@ -20,12 +19,8 @@ const App = () => {
           padding="md"
         >
           <AppShell.Header>
-            <Text fw={500} pt='xs' pl='xs'>
-              Factorio shapes
-            </Text>
-            <Text fz="xs" opacity={0.6} pl='xs'>
-              Export shapes as Factorio blueprints
-            </Text>
+            <Text fw={500} pt='xs' pl='xs'>Factorio shapes</Text>
+            <Text fz="xs" opacity={0.6} pl='xs'>Export SVG shapes as Factorio blueprints</Text>
           </AppShell.Header>
           <AppShell.Navbar p='md'>
           <Stack gap='md'>
@@ -37,7 +32,6 @@ const App = () => {
             <BlueprintCanvas/>
           </AppShell.Main>
           <AppShell.Aside p="md">
-            <ImportBlueprint/>
             <ExportBlueprint/>
           </AppShell.Aside>
         </AppShell>
