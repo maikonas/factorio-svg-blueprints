@@ -1,8 +1,13 @@
 import { createContext, useState, useContext } from 'react';
 
+type GlyphType = {
+  data: ImageData;
+  boundary: number;
+}
+
 type GlyphContextType = {
-    glyph: ImageData | null;
-    setGlyph: (glyph: ImageData) => void;
+    glyph: GlyphType | null;
+    setGlyph: (glyph: GlyphType) => void;
 }
 
 const defaultContext: GlyphContextType = {
@@ -13,7 +18,7 @@ const defaultContext: GlyphContextType = {
 const GlyphContext = createContext(defaultContext);
 
 export function GlyphProvider({ children }: { children: React.ReactNode }) {
-    const [glyph, setGlyph] = useState<ImageData | null>(null);
+    const [glyph, setGlyph] = useState<GlyphType | null>(null);
   
   return (
     <GlyphContext.Provider value={{glyph, setGlyph}}>
@@ -23,3 +28,5 @@ export function GlyphProvider({ children }: { children: React.ReactNode }) {
 }
 
 export const useGlyph = () => useContext(GlyphContext);
+
+export { GlyphType }

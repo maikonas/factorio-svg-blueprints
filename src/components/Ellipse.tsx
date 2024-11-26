@@ -18,15 +18,15 @@ const Ellipse = () => {
       ctx.ellipse(0, 0, radiusA, radiusB, 0, 0, Math.PI * 2);
       ctx.fill();
     });
-    setGlyph(imageData);
+    setGlyph({data: imageData, boundary: width});
   }, [radiusA, radiusB]);
 
   return (
     <div>
       Radius A
-      <Slider min={1} max={200} value={sliderA} onChangeEnd={setRadiusA} onChange={setSliderA}/>
+      <Slider min={1} max={99} value={sliderA} onChangeEnd={setRadiusA} onChange={setSliderA}/>
       Radius B
-      <Slider min={1} max={200} value={sliderB} onChangeEnd={setRadiusB} onChange={setSliderB}/>
+      <Slider min={1} max={99} value={sliderB} onChangeEnd={setRadiusB} onChange={setSliderB}/>
     </div>
   );
 }

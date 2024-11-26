@@ -11,7 +11,7 @@ const ExportBlueprint = () => {
 
   const exportData = () => {
     if (glyph) {
-      const obj = generateBlueprintObject(glyph, settings);
+      const obj = generateBlueprintObject(glyph.data, settings);
       console.log(obj);
 
       exportArea.current!.value = exportBlueprint(obj)

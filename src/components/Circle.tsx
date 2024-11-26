@@ -13,13 +13,13 @@ const Circle = () => {
       ctx.arc(0, 0, radius, 0, Math.PI * 2);
       ctx.fill();
     });
-    setGlyph(imageData);
+    setGlyph({data: imageData, boundary: radius});
   }, [radius]);
 
   return (
     <div>
       Radius
-      <Slider min={1} max={200} value={slider} onChangeEnd={setRadiusValue} onChange={setSlider}/>
+      <Slider min={1} max={99} value={slider} onChangeEnd={setRadiusValue} onChange={setSlider}/>
     </div>
   );
 }

@@ -11,27 +11,28 @@ const BlueprintCanvas = () => {
     if (canvasRef.current) {    
       const ctx = canvasRef.current.getContext('2d');
       if (glyph && ctx) {
+        const image = glyph.data;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-        let ratio = ctx.canvas.width / glyph.width;
-        ratio = ratio >= 10 ? 10 : ratio; 
+        let ratio = ctx.canvas.width / (2*glyph.boundary);
+        ratio = ratio >= 10 ? 10 : ratio;
 
-        for(let x = 0; x < glyph.width; x++) {
-          for(let y = 0; y < glyph.height; y++) {
-            let index = (x + y * glyph.width) * 4;
-            const fill = glyph.data[index+3]
-            if (fill < 64) {
-              ctx.fillStyle = 'white';
-            } else 
-            {
-              ctx.fillStyle = `rgb(${glyph.data[index+0]} ${glyph.data[index+1]} ${glyph.data[index+2]} / ${100}%)`;
+        for(let x = -glyph.boundary; x < glyph.boundary; x++) {
+          for(let y = -glyph.boundary; y < glyph.boundary; y++) {
+            if (x > -100 && x < 100 && y > -100 && y < 100) {
+              const index = (x + 100 + (y + 100) * image.width) * 4;
+              const fill = image.data[index+3]
+
+              if (fill > 64) {
+                ctx.fillStyle = 'black';
+                ctx.fillRect(
+                  x * ratio + ctx.canvas.width/2, 
+                  y * ratio + ctx.canvas.height/2, 
+                  ratio, 
+                  ratio
+                );
+              }
             }
-            ctx.fillRect(
-              (x - glyph.width/2)*ratio + ctx.canvas.width/2, 
-              (y - glyph.height/2)*ratio + ctx.canvas.height/2, 
-              ratio, 
-              ratio
-            );
           }
         }
 

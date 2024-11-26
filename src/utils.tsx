@@ -24,7 +24,7 @@ type DrawCallback = (path: Path2D) => void;
 const drawShape = (ctx: OffscreenCanvasRenderingContext2D, settings: CustomShapeSettings, drawCallback: DrawCallback) => {
   const path = new Path2D(settings.path);
 
-  ctx.scale(100*settings.scale, 100*settings.scale);
+  ctx.scale(settings.scale, settings.scale);
 
   drawCallback(path);
   if (settings.horizontalMirror) {
@@ -116,8 +116,8 @@ const emptyBlueprintWithHub: Blueprint = {
 const generateBlueprintObject = (glyph: ImageData, settings: GeneralSettingsType): Blueprint => {
   let blueprintObject = settings.addSpacePlatformHub ? structuredClone(emptyBlueprintWithHub) : structuredClone(emptyBlueprint);
 
-  const halfWidth = glyph.width / 2;
-  const halfHeight = glyph.height / 2;
+  const halfWidth = 100;
+  const halfHeight = 100;
 
   const dx = settings.addSpacePlatformHub ? settings.platformHubX || 0 : 0
   const dy = settings.addSpacePlatformHub ? settings.platformHubY || 0 : 0

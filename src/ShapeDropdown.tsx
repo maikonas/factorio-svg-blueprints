@@ -12,9 +12,8 @@ const shapeList: { [key: string]: JSX.Element } = {
   'Triangle': <Triangle/>,
   'Ellipse': <Ellipse/>,
   'Falcon': <CustomShape key='falcon' scale={1/140} path='M -77 0 A 1 1 0 0 0 76 0 C 76 -10 75 -21 69 -32 L 77 -37 L 77 -56 L 73 -71 L 62 -71 L 58 -58 L 58 -50 L 54 -54 L 20 -131 L 12 -131 L 12 -76 L 9 -76 L 9 -92 L -9 -92 L -9 -76 L -12 -76 L -12 -131 L -19 -131 L -54 -55 C -66 -42 -77 -22 -77 -4 Z'/>,
-  'Ship': <CustomShape key='ship' scale={1/20} path='M0-13 2-12 3-9 5-7 8-5 8-3 7-2 6 0 6 2 9 6 4 6 3 8 5 9 5 14 0 12Z' horizontalMirror={true}/>,
   'Enterprise': <CustomShape key='enterprise' scale={1/100} path='M0-50C10-50 27-43 27-23 27-2 14 1 6 5 7 9 6 13.6667 6 18L16 28 17 11C17 8 21 8 21 11L22 66 17 69 16 40 5 24 4 35C4 37 2 38 0 38Z' horizontalMirror={true}/>,
-  'Star': <CustomShape key='star' scale={1/30} path='M0 0-6 0 0-25 6 0Z' rotations={5}/>,
+  'Ship': <CustomShape key='ship' scale={1/30} path='M0-13 2-12 3-9 5-7 8-5 8-3 7-2 6 0 6 2 9 6 4 6 3 8 5 9 5 14 0 12Z' horizontalMirror={true}/>,
 }
 
 const ShapeDropdown = () => {

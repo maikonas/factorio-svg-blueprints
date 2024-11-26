@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { Combobox, Input, InputBase, useCombobox, Image, Group, Stack, Checkbox, Slider } from '@mantine/core';
+import { Combobox, InputBase, useCombobox, Image, Group, Stack, Checkbox, Slider, Text } from '@mantine/core';
 import { useGeneralSettings } from '~GeneralSettingsProvider';
 
 type GeneralSettingsType = {
@@ -84,6 +84,7 @@ const GeneralSettings = () => {
         </Combobox.Dropdown>
       </Combobox>    
       <Checkbox disabled={!spaceTile()} checked={settings.addSpacePlatformHub} label="Add Space Platform Hub" onChange={commitHubPresence}/>
+      <Text fz='xs'>Space Platform Hub Position</Text>
       <Slider min={-100} max={100} step={1} onChange={setHubX} value={hubX} onChangeEnd={commitHubX} disabled={!settings.addSpacePlatformHub}/>
       <Slider min={-100} max={100} step={1} onChange={setHubY} value={hubY} onChangeEnd={commitHubY} disabled={!settings.addSpacePlatformHub}/>
     </Stack>

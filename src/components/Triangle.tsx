@@ -21,14 +21,14 @@ const Triangle = () => {
       ctx.closePath();
       ctx.fill();
     });
-    setGlyph(imageData);
+    setGlyph({data: imageData, boundary: radius});
   }, [radius, rotation]);
 
   return (
     <div>
     <div>Triangle</div>
       Radius
-      <Slider min={1} max={100} value={radiusSlider} onChange={setRadiusSlider} onChangeEnd={setRadius}/>
+      <Slider min={1} max={99} value={radiusSlider} onChange={setRadiusSlider} onChangeEnd={setRadius}/>
       Rotation
       <Slider min={0} max={359} value={rotationSlider} onChange={setRotationSlider} onChangeEnd={setRotation}/>
     </div>

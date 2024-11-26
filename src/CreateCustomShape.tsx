@@ -39,6 +39,7 @@ const CreateCustomShape = ({callback}: {callback:(settings: CustomShapeSettings)
         context.lineTo(-100.5, 0.5);
         context.stroke();
 
+        context.scale(100, 100);
 
         context.fillStyle = 'rgba(0 0 0 / 40%)';
         context.strokeStyle = 'black';
