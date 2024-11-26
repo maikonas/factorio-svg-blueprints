@@ -17,7 +17,7 @@ const selectionList: {[key: string]: string[]} = {
 const options = Object.entries(selectionList).map(([key, value]) => {
   const subOptions = value.map((option) => (
     <Combobox.Option value={option} key={option}>
-      <Group><Image src={`/icons/${option}.png`} fit='contain' h='2rem'/>{option}</Group>
+      <Group><Image src={`icons/${option}.png`} fit='contain' h='2rem'/>{option}</Group>
     </Combobox.Option>
   ))
   return(
@@ -76,7 +76,7 @@ const GeneralSettings = () => {
             onClick={() => combobox.toggleDropdown()}
             rightSectionPointerEvents="none">
 
-            <Group wrap='nowrap'><Image src={`/icons/${settings.tile}.png`} fit='contain' h='1rem'/>{settings.tile}</Group>
+            <Group wrap='nowrap'><Image src={`icons/${settings.tile}.png`} fit='contain' h='1rem'/>{settings.tile}</Group>
           </InputBase>
         </Combobox.Target>
         <Combobox.Dropdown>
