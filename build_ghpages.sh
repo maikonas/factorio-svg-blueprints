@@ -1,5 +1,6 @@
 #!/bin/bash
 
+git pull
 git merge main
 
 yarn build --base=factorio-svg-blueprints
