@@ -9,9 +9,9 @@ const CreateCustomShape = ({callback}: {callback:(settings: CustomShapeSettings)
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [shapeSettings, setShapeSettings] = useState<CustomShapeSettings>({
-    path: 'M7 0-7 0 0-22Z',
-    scale: 0.04,
-    horizontalMirror: false,
+    path: 'M0-20C5-20 10-15 10-10L30-5C30-15 24-30 15-30L15-40C30-40 40-21 40 0 40 20 30 40 15 40L15 30C24 30 30 15 30 5L10 10C10 15 5 20 0 20Z',
+    scale: 0.019,
+    horizontalMirror: true,
     verticalMirror: false,
     rotations: 1,
   });
