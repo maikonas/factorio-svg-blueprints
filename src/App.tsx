@@ -1,5 +1,5 @@
 import '@mantine/core/styles.css';
-import { AppShell, Button, MantineProvider, Modal, Stack, Text } from '@mantine/core';
+import { AppShell, Button, MantineProvider, Image, Stack, Text, Group } from '@mantine/core';
 import { GlyphProvider } from '~GlyphProvider';
 import { BlueprintCanvas } from '~BlueprintCanvas';
 import { ExportBlueprint } from '~ExportBlueprint';
@@ -19,8 +19,13 @@ const App = () => {
           padding="md"
         >
           <AppShell.Header>
-            <Text fw={500} pt='xs' pl='xs'>Factorio shapes</Text>
-            <Text fz="xs" opacity={0.6} pl='xs'>Export SVG shapes as Factorio blueprints</Text>
+            <Group justify='flex-start' p={0}>
+              <Stack justify='' p={0} gap={0} pt='xs'>
+                <Text fw={500} pl='xs'>Factorio shapes</Text>
+                <Text fz="xs" opacity={0.6} pl='xs'>Export SVG shapes as Factorio blueprints</Text>
+              </Stack>
+              <a href='https://github.com/maikonas/factorio-svg-blueprints' target='_blank'><Image src='https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png' w='2rem' h='2rem' /></a>
+            </Group>
           </AppShell.Header>
           <AppShell.Navbar p='md'>
           <Stack gap='md'>
